@@ -12,7 +12,7 @@ long_description = '{0}\n{1}'.format(
 
 setup(
     name='flake8-isort',
-    version='2.5.1.dev0',
+    version='0.1.0',
     description=short_description,
     long_description=long_description,
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -39,13 +39,13 @@ setup(
     author_email='gil.gnome@gmail.com',
     url='https://github.com/gforcada/flake8-isort',
     license='GPL version 2',
-    py_modules=['flake8_isort', ],
+    py_modules=['flake8_uuid_checker', ],
     include_package_data=True,
     test_suite='run_tests',
     zip_safe=False,
     install_requires=[
-        'flake8 >= 3.2.1',
-        'isort >= 4.3.0',
+        'flake8>=3.2.1',
+        'isort>=4.3.0',
         'testfixtures',
     ],
     extras_require={
@@ -54,6 +54,6 @@ setup(
         ],
     },
     entry_points={
-        'flake8.extension': ['I00 = flake8_isort:Flake8Isort', ],
+        'flake8.extension': ['I20 = flake8_uuid_checker:UuidChecker', ],
     },
 )

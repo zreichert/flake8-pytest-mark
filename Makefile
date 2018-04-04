@@ -58,7 +58,6 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache/
 
 clean-venv: check-venv ## remove all packages from current virtual environment
-	@pip uninstall -y swagger-client || echo "Skipping uninstall of swagger-client"
 	@source virtualenvwrapper.sh && wipeenv || echo "Skipping wipe of environment"
 
 lint: ## check style with flake8
