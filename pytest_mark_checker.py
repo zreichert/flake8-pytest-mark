@@ -45,7 +45,7 @@ class MarkChecker(object):
                         decorator_type = decorator.func.value.value.id
                         if decorator_type == 'pytest' and mark_key == 'test_id':
                             marked = True
-                    except AttributeError:
+                    except (AttributeError, IndexError):
                         pass
                 if not marked:
                     yield (line_num, 0, self.message_M501, type(self))
