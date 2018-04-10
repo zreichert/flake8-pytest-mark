@@ -36,14 +36,17 @@ class MarkChecker(object):
             marked = False
             line_num = node.lineno
             name = node.name
-            if re.search(r'^test_', name):
+            if re.search(r'^test', name):
                 for decorator in node.decorator_list:
                     # I know this is ugly but it works for now
-                    value = decorator.args[0].s
-                    mark_key = decorator.func.attr
-                    decorator_type = decorator.func.value.value.id
-                    if decorator_type == 'pytest' and mark_key == 'test_id':
-                        marked = True
+                    try:
+                        value = decorator.args[0].s
+                        mark_key = decorator.func.attr
+                        decorator_type = decorator.func.value.value.id
+                        if decorator_type == 'pytest' and mark_key == 'test_id':
+                            marked = True
+                    except AttributeError:
+                        pass
                 if not marked:
                     yield (line_num, 0, self.message_M501, type(self))
 
