@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import ast
 import re
-from rules import rule_m5xx, rule_m6xx, rule_m7xx, rule_m8xx
+from flake8_pytest_mark.rules import rule_m5xx, rule_m6xx, rule_m7xx, rule_m8xx
 
 __author__ = 'Zach Reichert'
 __email__ = 'zach.reichert@rackspace.com'

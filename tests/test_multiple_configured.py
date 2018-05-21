@@ -86,6 +86,6 @@ def test_my_feature(host):
 """)
     result = flake8dir.run_flake8(extra_args)
     observed = result.out_lines
-    expected = ["./example.py:1:1: M601 the mark values '['bogus']' do not match the configuration specified by pytest_mark1, badly formed hexadecimal UUID string",
+    expected = ["./example.py:1:1: M601 the mark values '['bogus']' do not match the configuration specified by pytest_mark1, badly formed hexadecimal UUID string",  # noqa
                 "./example.py:1:1: M602 the mark values '['jira-ticket']' do not match the configuration specified by pytest_mark2, Configured regex: '[a-zA-Z]+-\d+'"]  # noqa
     pytest.helpers.assert_lines(expected, observed)
