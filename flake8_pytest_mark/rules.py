@@ -20,8 +20,7 @@ def rule_m5xx(node, rule_name, rule_conf, class_type):
         tuple: (int, int, str, type) the tuple used by flake8 to construct a violation
     """
     line_num = node.lineno
-    code = ''.join([i for i in str(rule_name) if i.isdigit()])
-    code = code.zfill(2)
+    code = _generate_mark_code(rule_name)
     message = 'M5{} test definition not marked with {}'.format(code, rule_conf['name'])
     if not _reduce_decorators_by_mark(node.decorator_list, rule_conf['name']):
         yield (line_num, 0, message, class_type)
@@ -73,8 +72,7 @@ def rule_m6xx(node, rule_name, rule_conf, class_type):
                             detailed_error = e
 
     if configured and len(non_matching_values) > 0:
-        code = ''.join([i for i in str(rule_name) if i.isdigit()])
-        code = code.zfill(2)
+        code = _generate_mark_code(rule_name)
         message = "M6{} the mark values '{}' do not match the configuration specified by {}, {}".format(code, non_matching_values, rule_name, detailed_error)   # noqa: E501
         yield (line_num, 0, message, class_type)
 
@@ -93,8 +91,7 @@ def rule_m7xx(node, rule_name, rule_conf, class_type):
         tuple: (int, int, str, type) the tuple used by flake8 to construct a violation
     """
     line_num = node.lineno
-    code = ''.join([i for i in str(rule_name) if i.isdigit()])
-    code = code.zfill(2)
+    code = _generate_mark_code(rule_name)
     message = False
     for decorator in _reduce_decorators_by_mark(node.decorator_list, rule_conf['name']):
         if any(not isinstance(arg, ast.Str) for arg in decorator.args):
@@ -118,8 +115,7 @@ def rule_m8xx(node, rule_name, rule_conf, class_type):
     """
 
     line_num = node.lineno
-    code = ''.join([i for i in str(rule_name) if i.isdigit()])
-    code = code.zfill(2)
+    code = _generate_mark_code(rule_name)
     message = 'M8{} @pytest.mark.{} may only be called once for a given test'.format(code, rule_conf['name'])
     allow_duplicate = False
     if 'allow_duplicate' in rule_conf and rule_conf['allow_duplicate'].lower() == 'true':
@@ -143,8 +139,7 @@ def rule_m9xx(node, rule_name, rule_conf, class_type):
         tuple: (int, int, str, type) the tuple used by flake8 to construct a violation
     """
     line_num = node.lineno
-    code = ''.join([i for i in str(rule_name) if i.isdigit()])
-    code = code.zfill(2)
+    code = _generate_mark_code(rule_name)
     allow_multiple_args = False
     if 'allow_multiple_args' in rule_conf and rule_conf['allow_multiple_args'].lower() == 'true':
         allow_multiple_args = True
@@ -173,3 +168,17 @@ def _get_decorator_args(decorator):
     except AttributeError:
         pass
     return args
+
+
+def _generate_mark_code(rule_name):
+    """Generates a two digit string based on a provided string
+
+    Args:
+        rule_name (str): A configured rule name 'pytest_mark3'.
+
+    Returns:
+        str: A two digit code based on the provided string '03'
+    """
+    code = ''.join([i for i in str(rule_name) if i.isdigit()])
+    code = code.zfill(2)
+    return code

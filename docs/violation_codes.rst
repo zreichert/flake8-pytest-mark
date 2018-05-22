@@ -15,7 +15,7 @@ flak8-pytest-mark is a flake8 plugin that validates the presence of given pytest
 +------+--------------------------------------------------------------------------------------------------+
 | M7XX | mark values must be strings                                                                      |
 +------+--------------------------------------------------------------------------------------------------+
-| M8XX | @pytest.mark.<mark_name> may only be called once for a given test                                                                   |
+| M8XX | @pytest.mark.<mark_name> may only be called once for a given test                                |
 +------+--------------------------------------------------------------------------------------------------+
 
 The codes referenced in the table above that end in XX are configurable.  Up to 50 instances may be created.
