@@ -128,6 +128,32 @@ def rule_m8xx(node, rule_name, rule_conf, class_type):
         yield (line_num, 0, message, class_type)
 
 
+def rule_m9xx(node, rule_name, rule_conf, class_type):
+    """Validates the number of arguments to @pytest.mark.foo()
+    By default we validate that there is only one argument
+    can configure to allow multiple with allow_multiple_args=true
+
+    Args:
+        node (ast.AST): A node in the ast.
+        rule_name (str): The name of the rule.
+        rule_conf (dict): The dictionary containing the properties of the rule
+        class_type (class): The class that this rule was called from
+
+    Yields:
+        tuple: (int, int, str, type) the tuple used by flake8 to construct a violation
+    """
+    line_num = node.lineno
+    code = ''.join([i for i in str(rule_name) if i.isdigit()])
+    code = code.zfill(2)
+    allow_multiple_args = False
+    if 'allow_multiple_args' in rule_conf and rule_conf['allow_multiple_args'].lower() == 'true':
+        allow_multiple_args = True
+    for decorator in _reduce_decorators_by_mark(node.decorator_list, rule_conf['name']):
+        if not allow_multiple_args and len(decorator.args) > 1:
+            message = 'M9{} you may only specify one argument to @pytest.mark.{}'.format(code, rule_conf['name'])
+            yield (line_num, 0, message, class_type)
+
+
 def _reduce_decorators_by_mark(decorators, mark):
     reduced = []
     for decorator in decorators:

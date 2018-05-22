@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import ast
 import re
-from flake8_pytest_mark.rules import rule_m5xx, rule_m6xx, rule_m7xx, rule_m8xx
+from flake8_pytest_mark.rules import rule_m5xx, rule_m6xx, rule_m7xx, rule_m8xx, rule_m9xx
 
 __author__ = 'Zach Reichert'
 __email__ = 'zach.reichert@rackspace.com'
@@ -34,7 +34,7 @@ class MarkChecker(object):
                 for single_line in mark_data:
                     a = [s.strip() for s in single_line.split('=')]
                     # whitelist the acceptable params
-                    if a[0] in ['name', 'value_match', 'value_regex', 'allow_duplicate']:
+                    if a[0] in ['name', 'value_match', 'value_regex', 'allow_duplicate', 'allow_multiple_args']:
                         parsed_params[a[0]] = a[1]
                 d[pytest_mark] = parsed_params
         cls.pytest_marks.update(d)
@@ -49,7 +49,7 @@ class MarkChecker(object):
         if len(self.pytest_marks) == 0:
             message = "M401 no configuration found for {}, please provide configured marks in a flake8 config".format(self.name)  # noqa: E501
             yield (0, 0, message, type(self))
-        rule_funcs = (rules.rule_m5xx, rules.rule_m6xx, rules.rule_m7xx, rules.rule_m8xx)
+        rule_funcs = (rules.rule_m5xx, rules.rule_m6xx, rules.rule_m7xx, rules.rule_m8xx, rules.rule_m9xx)
         for node in ast.walk(self.tree):
             if isinstance(node, ast.FunctionDef) and re.match(r'^test_', node.name):
                 for rule_func in rule_funcs:

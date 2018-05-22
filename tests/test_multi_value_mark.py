@@ -5,7 +5,7 @@ extra_args = ['--select', 'M']
 
 config = """
 [flake8]
-pytest_mark1 = name=jira,value_regex=[a-zA-Z]*-\d*
+pytest_mark1 = name=jira,value_regex=[a-zA-Z]*-\d*,allow_multiple_args=true
 
 """
 
